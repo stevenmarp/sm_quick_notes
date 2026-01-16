@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'SM Quick Notes',
+    'name': 'Quick Notes',
     'version': '17.0.1.0.0',
     'category': 'Productivity',
     'summary': 'Sticky notes widget in systray for quick note-taking',
