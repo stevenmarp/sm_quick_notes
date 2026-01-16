@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sm_quick_notes.QuickNotesSystray">
+        <Dropdown position="'bottom-end'" menuClass="'o_quick_notes_dropdown_menu'">
+            <button class="o_quick_notes_systray_item d-flex align-items-center btn" title="Quick Notes">
+                <i class="fa fa-sticky-note-o" style="color: #ffc107;"/>
+            </button>
+            <t t-set-slot="content">
+                <div class="o_quick_notes_panel">
+                <!-- Header -->
+                <div class="o_quick_notes_header">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold">
+                            <i class="fa fa-sticky-note me-1"/>
+                            Quick Notes
+                        </span>
+                        <button class="btn btn-sm btn-primary" t-on-click="createNote">
+                            <i class="fa fa-plus me-1"/>New
+                        </button>
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-transparent border-end-0">
+                            <i class="fa fa-search text-muted"/>
+                        </span>
+                        <input type="text" 
+                               class="form-control border-start-0" 
+                               placeholder="Search notes..."
+                               t-att-value="state.searchTerm"
+                               t-on-input="onSearchChange"/>
+                    </div>
+                </div>
+                
+                <!-- Notes List -->
+                <div class="o_quick_notes_list">
+                    <t t-if="state.isLoading">
+                        <div class="text-center py-4">
+                            <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                        </div>
+                    </t>
+                    <t t-elif="state.notes.length === 0">
+                        <div class="text-center py-4 text-muted">
+                            <i class="fa fa-sticky-note-o fa-3x mb-2 d-block opacity-50"/>
+                            <p>No notes yet</p>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="createNote">
+                                Create your first note
+                            </button>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <t t-foreach="state.notes" t-as="note" t-key="note.id">
+                            <div class="o_quick_note_item" 
+                                 t-att-style="'background-color: ' + getColorHex(note.color)"
+                                 t-att-class="{'o_pinned': note.is_pinned}">
+                                <!-- Pin indicator -->
+                                <div t-if="note.is_pinned" class="o_pin_indicator">
+                                    <i class="fa fa-thumb-tack"/>
+                                </div>
+                                
+                                <!-- Note Content -->
+                                <div class="o_note_content">
+                                    <t t-if="state.editingNoteId === note.id">
+                                        <input type="text" 
+                                               class="o_note_title_input form-control form-control-sm mb-1"
+                                               t-att-value="note.name"
+                                               t-on-input="(ev) => this.onTitleChange(note.id, ev)"
+                                               t-on-blur="stopEditing"
+                                               placeholder="Title..."/>
+                                        <textarea class="o_note_content_input form-control form-control-sm"
+                                                  rows="3"
+                                                  t-on-input="(ev) => this.onContentChange(note.id, ev)"
+                                                  placeholder="Write your note..."><t t-esc="note.content"/></textarea>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="o_note_title fw-bold" t-on-click="() => this.startEditing(note.id)">
+                                            <t t-esc="note.name || 'Untitled'"/>
+                                        </div>
+                                        <div class="o_note_text small" t-on-click="() => this.startEditing(note.id)">
+                                            <t t-esc="note.content ? (note.content.length > 100 ? note.content.substring(0, 100) + '...' : note.content) : 'Click to edit...'"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                
+                                <!-- Actions -->
+                                <div class="o_note_actions">
+                                    <button class="btn btn-sm" 
+                                            t-att-class="note.is_pinned ? 'text-danger' : 'text-muted'"
+                                            t-on-click="() => this.togglePin(note.id)"
+                                            title="Pin/Unpin">
+                                        <i class="fa fa-thumb-tack"/>
+                                    </button>
+                                    <button class="btn btn-sm text-muted" 
+                                            t-on-click="(ev) => this.toggleColorPicker(note.id, ev)"
+                                            title="Change color">
+                                        <i class="fa fa-palette"/>
+                                    </button>
+                                    <button class="btn btn-sm text-danger" 
+                                            t-on-click="() => this.deleteNote(note.id)"
+                                            title="Delete">
+                                        <i class="fa fa-trash"/>
+                                    </button>
+                                </div>
+                                
+                                <!-- Color Picker -->
+                                <div t-if="state.showColorPicker === note.id" class="o_color_picker">
+                                    <t t-foreach="colors" t-as="color" t-key="color.name">
+                                        <div class="o_color_option"
+                                             t-att-style="'background-color: ' + color.hex"
+                                             t-att-class="{'active': note.color === color.name}"
+                                             t-on-click="() => this.setColor(note.id, color.name)"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+            </t>
+        </Dropdown>
+    </t>
+</templates>

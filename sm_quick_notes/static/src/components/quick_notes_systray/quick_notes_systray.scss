@@ -1,0 +1,174 @@
+/* Quick Notes Systray Styles */
+
+.o_quick_notes_systray {
+    .o_quick_notes_icon {
+        position: relative;
+        cursor: pointer;
+        padding: 4px 8px;
+        
+        &:hover {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        
+        .fa-sticky-note-o {
+            color: #ffc107;
+        }
+        
+        .o_quick_notes_badge {
+            position: absolute;
+            top: -4px;
+            right: 0;
+            font-size: 10px;
+            min-width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+    }
+}
+
+.o_quick_notes_panel {
+    width: 350px;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+    
+    .o_quick_notes_header {
+        padding: 12px;
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        color: #333;
+        border-radius: 8px 8px 0 0;
+        
+        .input-group-text {
+            border-color: rgba(0,0,0,0.1);
+        }
+        
+        .form-control {
+            border-color: rgba(0,0,0,0.1);
+            
+            &:focus {
+                border-color: #ff9800;
+                box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+            }
+        }
+    }
+    
+    .o_quick_notes_list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px;
+        background: #f8f9fa;
+        max-height: 400px;
+    }
+}
+
+.o_quick_note_item {
+    position: relative;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        
+        .o_note_actions {
+            opacity: 1;
+        }
+    }
+    
+    &.o_pinned {
+        border-left: 3px solid #dc3545;
+    }
+    
+    .o_pin_indicator {
+        position: absolute;
+        top: -8px;
+        right: 8px;
+        color: #dc3545;
+        transform: rotate(45deg);
+        font-size: 12px;
+    }
+    
+    .o_note_content {
+        .o_note_title {
+            cursor: pointer;
+            margin-bottom: 4px;
+            color: #333;
+        }
+        
+        .o_note_text {
+            cursor: pointer;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .o_note_title_input,
+        .o_note_content_input {
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(0,0,0,0.1);
+            
+            &:focus {
+                background: white;
+                border-color: #ffc107;
+                box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+            }
+        }
+    }
+    
+    .o_note_actions {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        display: flex;
+        gap: 2px;
+        
+        .btn {
+            padding: 2px 6px;
+            font-size: 12px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 4px;
+            
+            &:hover {
+                background: white;
+            }
+        }
+    }
+    
+    .o_color_picker {
+        position: absolute;
+        top: 100%;
+        right: 8px;
+        background: white;
+        padding: 8px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        display: flex;
+        gap: 6px;
+        z-index: 100;
+        
+        .o_color_option {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            
+            &:hover {
+                transform: scale(1.2);
+            }
+            
+            &.active {
+                border-color: #333;
+            }
+        }
+    }
+}
