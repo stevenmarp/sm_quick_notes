@@ -1,4 +1,4 @@
-# SM Quick Notes
+# Quick Notes
 
 A sticky notes widget for Odoo systray - quick note-taking without leaving your workflow.
 
@@ -17,7 +17,7 @@ A sticky notes widget for Odoo systray - quick note-taking without leaving your 
 1. Download the module
 2. Place it in your Odoo addons folder
 3. Update the apps list
-4. Install "SM Quick Notes"
+4. Install "Quick Notes"
 
 ## Usage
 
